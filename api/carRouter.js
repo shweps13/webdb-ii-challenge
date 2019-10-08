@@ -20,4 +20,31 @@ router.get('/', (req, res) => {
     })
 });
 
+router.get('/:id', (req, res) => {
+    db('cars')
+    .where('id', '=', req.params.id)
+    .first()
+    .then(car => {
+      res.status(200).json(car);
+  })
+  .catch(error => {
+      res.status(500).json(error);
+  })
+
+});
+
+router.post('/', (req, res) => {
+    const carData = req.body;
+
+    db('cars')
+    .insert(carData, 'id')
+    .then(ids => {
+        res.status(200).json(ids);
+    })
+    .catch(error => {
+        res.status(500).json(error);
+    });
+
+});
+
 module.exports = router;
