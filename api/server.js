@@ -5,9 +5,14 @@ const carRouter = require('./carRouter.js');
 
 const server = express();
 
+const logger = (req, res, next) => {
+    console.log(`[${new Date().toISOString()}] Was method "${req.method}" to address "${req.path}"`);
+    next();
+}
+
 server.use(helmet());
 server.use(express.json());
-
+server.use(logger);
 server.use('/api/cars', carRouter);
 
 server.get('/', (req, res) => {
